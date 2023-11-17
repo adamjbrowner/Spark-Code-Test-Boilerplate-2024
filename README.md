@@ -1,3 +1,9 @@
+Create the foundation of a to-do list application, focusing on backend functionality and essential frontend interaction. Your task is implementing a RESTful API using Go and a simple JS interface using React. The goal is to be able to be able to list and add todo's.
+
+The backend needs to meet the openapi spec which within the backend folder. You need to create the list endpoint and the add todo endpoint. The storage system is in-memory.
+
+The frontend already has functionality to list the todo's, your task is to complete the form which submits todo's to the backend system.
+
 # Setup
 If not already installed, please install the following:
 1. Go ([install instructions](https://go.dev/doc/install))
