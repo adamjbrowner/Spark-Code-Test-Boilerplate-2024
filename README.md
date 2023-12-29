@@ -4,7 +4,7 @@ The backend needs to meet the openapi spec which within the backend folder. You 
 
 The frontend already has functionality to list the todo's, your task is to complete the form which submits todo's to the backend system.
 
-Please fork this repo and commit your code so it can reviewed by us. Please get as far as you can within 2 hours.
+Please use this repo as your base and commit your code so it can reviewed by us. Please get as far as you can within 2 hours.
 
 # Setup
 If not already installed, please install the following:
