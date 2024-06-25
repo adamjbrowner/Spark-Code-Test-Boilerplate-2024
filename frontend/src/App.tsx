@@ -24,6 +24,11 @@ function App() {
     fetchTodos()
   }, []);
 
+  const [newToDo, setNewToDo] = useState<TodoType>({
+    title: '',
+    description: ''
+  });
+
   return (
     <div className="app">
       <header className="app-header">
@@ -42,8 +47,18 @@ function App() {
 
       <h2>Add a Todo</h2>
       <form>
-        <input placeholder="Title" name="title" autoFocus={true} />
-        <input placeholder="Description" name="description" />
+        <input placeholder="Title" name="title" value={newToDo.title} autoFocus={true} onChange={event =>
+          setNewToDo({
+            ...newToDo,
+            title: event.target.value
+          })
+        } />
+        <input placeholder="Description" name="description" value={newToDo.description} onChange={event => {
+          setNewToDo({
+            ...newToDo,
+            description: event.target.value
+          });
+        }} />
         <button>Add Todo</button>
       </form>
     </div>
