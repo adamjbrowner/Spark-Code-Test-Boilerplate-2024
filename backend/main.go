@@ -1,13 +1,33 @@
 package main
 
-import "net/http"
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+)
 
-func main() {
-	// Your code here
+type ToDo struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
 }
 
-func ToDoListHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+type ToDoList []ToDo
 
-	// Your code here
+var toDoList ToDoList
+
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		getToDoListHandler(w, r)
+
+	})
+
+	fmt.Println("Server is running on port 8080")
+	http.ListenAndServe(":8080", nil)
+}
+
+func getToDoListHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(toDoList)
 }
