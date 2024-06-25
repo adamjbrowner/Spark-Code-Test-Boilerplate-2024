@@ -24,6 +24,39 @@ function App() {
     fetchTodos()
   }, []);
 
+
+  const [newToDo, setNewToDo] = useState<TodoType>({
+    title: '',
+    description: ''
+  });
+
+
+  const addNewTodo = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8080/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newToDo)
+      });
+
+      if (response.status !== 200) {
+        console.log('Error adding data');
+        return;
+      }
+
+      setTodos([...todos, newToDo]);
+      setNewToDo({
+        title: '',
+        description: ''
+      });
+    } catch (e) {
+      console.log('Could not connect to server. Ensure it is running. ' + e);
+    }
+  }
+
   return (
     <div className="app">
       <header className="app-header">
@@ -42,9 +75,19 @@ function App() {
 
       <h2>Add a Todo</h2>
       <form>
-        <input placeholder="Title" name="title" autoFocus={true} />
-        <input placeholder="Description" name="description" />
-        <button>Add Todo</button>
+        <input placeholder="Title" name="title" value={newToDo.title} autoFocus={true} onChange={event =>
+          setNewToDo({
+            ...newToDo,
+            title: event.target.value
+          })
+        } />
+        <input placeholder="Description" name="description" value={newToDo.description} onChange={event => {
+          setNewToDo({
+            ...newToDo,
+            description: event.target.value
+          });
+        }} />
+        <button onClick={addNewTodo}>Add Todo</button>
       </form>
     </div>
   );
