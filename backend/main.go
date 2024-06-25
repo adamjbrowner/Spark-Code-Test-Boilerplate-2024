@@ -17,14 +17,14 @@ var toDoList = ToDoList{}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// naughty CORS, only for development
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-		println(r.Method)
 		switch r.Method {
 		case "GET":
-			getToDoListHandler(w, r)
+			getToDoListHandler(w)
 		case "POST":
 			createToDoHandler(w, r)
 		case "OPTIONS":
@@ -36,7 +36,7 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func getToDoListHandler(w http.ResponseWriter, r *http.Request) {
+func getToDoListHandler(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(toDoList)
 }
