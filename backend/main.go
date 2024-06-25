@@ -13,19 +13,22 @@ type ToDo struct {
 
 type ToDoList []ToDo
 
-var toDoList ToDoList
+var toDoList = ToDoList{}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
+		println(r.Method)
 		switch r.Method {
 		case "GET":
 			getToDoListHandler(w, r)
 		case "POST":
 			createToDoHandler(w, r)
-		default:
-			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		case "OPTIONS":
+			w.WriteHeader(http.StatusOK)
 		}
 	})
 

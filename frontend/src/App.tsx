@@ -24,10 +24,38 @@ function App() {
     fetchTodos()
   }, []);
 
+
   const [newToDo, setNewToDo] = useState<TodoType>({
     title: '',
     description: ''
   });
+
+
+  const addNewTodo = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8080/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newToDo)
+      });
+
+      if (response.status !== 200) {
+        console.log('Error adding data');
+        return;
+      }
+
+      setTodos([...todos, newToDo]);
+      setNewToDo({
+        title: '',
+        description: ''
+      });
+    } catch (e) {
+      console.log('Could not connect to server. Ensure it is running. ' + e);
+    }
+  }
 
   return (
     <div className="app">
@@ -59,7 +87,7 @@ function App() {
             description: event.target.value
           });
         }} />
-        <button>Add Todo</button>
+        <button onClick={addNewTodo}>Add Todo</button>
       </form>
     </div>
   );
